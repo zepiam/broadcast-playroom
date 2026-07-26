@@ -1,0 +1,45 @@
+# ── Build output ──
+build/
+dist/
+release/
+
+# ── Python cache ──
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.spec.bak
+
+# ── Virtual envs ──
+venv/
+env/
+.venv/
+.env
+
+# ── IDE / Editor ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs / Temp ──
+*.log
+tts.log
+temp_icon.*
+*.tmp
+
+# ── User data (ห้าม commit — เป็นข้อมูลผู้ใช้) ──
+users.json
+user_manager_data.json
+chat_history.json
+settings.json
+soundpad/
+cache/
+twemoji_cache/
