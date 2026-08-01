@@ -4,6 +4,31 @@
 
 ---
 
+## v1.8.18 (2026-08-02)
+
+### 🔧 แก้ไข
+
+**Live Chat**
+- แก้ scrollbar ไม่ทำงาน — บังคับ CTkScrollableFrame update scrollregion หลังเพิ่มข้อความใหม่ (debounced)
+- แก้ auto-scroll ดึงกลับบนสุดตลอด — ตอนนี้ถ้า user เลื่อนไปดูข้อความเก่า จะไม่ดึงกลับ
+
+**Game Overlay**
+- แก้ข้อความถูกบีบจนมองไม่เห็นตอนแชทเยอะ — `.msg` มี `flex-shrink: 0` (คงความสูง ไม่บีบ)
+
+**Mute (ปิดการอ่าน)**
+- กดปิดแล้วหยุดทันที — `clear_queues()` ล้างคิวทั้งหมด + `player.stop()` หยุดเสียงทันที (ไม่อ่านต่อจนหมดคิว)
+
+**Memory / Performance**
+- แก้ thread storm — `message_history`, `event_log`, `donate_tracker` เปลี่ยนจาก spawn-thread-per-record เป็น debounced single-writer
+- แก้ `_paused_msgs` (popout) ไม่จำกัด — cap ที่ `_MAX_CHAT_ROWS` (60)
+- เพิ่ม `flush()` ตอนปิดโปรแกรม (กันเสียข้อมูลจาก debounce)
+
+**RVC**
+- เลิกโหลด RVC ตอน auto-connect (เคยทำให้ RAM พุ่งตอนเปิดโปรแกรม)
+- RVC โหลดเฉพาะตอน user เลือกเสียงเท่านั้น
+
+---
+
 ## v1.8.17 (2026-07-31)
 
 ### 🎮 ใหม่ — Viewer Interaction Commands
