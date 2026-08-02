@@ -4,6 +4,53 @@
 
 ---
 
+## v1.8.19 (2026-08-02)
+
+### 👥 ใหม่ — Viewer Overlay
+
+แสดงยอดคนดูบน Game Overlay (ลอยมุมจอ)
+
+- **โหมดรวม** — `👥 1,234` (ยอดรวมทุก platform)
+- **โหมดแยก platform** — `🟣 500  🔴 300  🔵 234` (เรียงตามที่เชื่อมต่อ)
+- **เลือกตำแหน่ง 4 มุม** — บนซ้าย / บนขวา / ล่างซ้าย / ล่างขวา
+- อัปเดตอัตโนมัติจาก Twitch / YouTube / MyLive / TikTok / KICK
+- ตั้งค่า: Game Overlay → Setting → Tab "Viewer Overlay"
+
+### 🔧 ปรับ Tab Settings
+- "Text Setting" → "Game Overlay" (รวม Event Colors ไว้ใน tab เดียว)
+- "Event Color" → "Viewer Overlay" (tab ใหม่)
+
+---
+
+## v1.8.19 (2026-08-02)
+
+### 👥 ใหม่ — Viewer Overlay (Overlay อิสระ)
+- แสดงยอดคนดูบนจอ — แยก server + window ของตัวเอง (ไม่ต้องเปิด Game Overlay)
+- โหมดรวม: `👥 1,234` (ยอดรวมทุก platform)
+- โหมดแยก: `[Twitch] 500 [YT] 300` (ใช้ platform icon จริง)
+- ปรับขนาด icon + font + stroke + shadow + color
+- เลือกจัดวาง: ชิดซ้าย/กลาง/ชิดขวา + ตำแหน่ง 4 มุม
+- จดจำตำแหน่ง + ลากย้ายได้
+
+### 🎨 Splash Screen ใหม่
+- แยกภาพ LITE/FULL (ไม่เหมือนกัน)
+- พื้นหลังโปร่งใส — เห็นแค่ภาพ ไม่มีกล่อง
+- Pixel Block Loading Bar สไตล์เกม Famicom
+- ไม่ always on top
+
+### 🔲 ปุ่ม Overlay รวม
+- กดปุ่ม 🔲 เดียว → เปิด/ปิดทั้ง Game + Viewer Overlay (ที่เลือกไว้)
+- ▼ Dropdown: ซ่อนกรอบ / Game Overlay Setting / Viewer Overlay Setting
+- Hotkey ซ่อนกรอบร่วม (Ctrl+Shift+H) — sync ทั้งคู่พร้อมกัน
+- ไอคอนใหม่: Overlay OBS 🖥️ / Overlay+ 🪟
+
+### 🔧 แก้ไข
+- Job Object — subprocess ตายอัตโนมัติเมื่อ parent ปิด/crash
+- แยก "เลือกใช้" (Setting) จาก "สถานะรัน" (ปุ่มหลัก)
+- Tab Settings: "Text Setting" → "Game Overlay" (รวม Event Colors), "Event Color" → "Viewer Overlay"
+
+---
+
 ## v1.8.18 (2026-08-02)
 
 ### 🔧 แก้ไข
