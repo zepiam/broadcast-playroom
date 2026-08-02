@@ -41,8 +41,16 @@
   - 3 โหมด: Default / Theme / Special (Balloon)
 - **Game Overlay** — แชทลอยเหนือเกม (transparent + click-through, Qt)
   - เปิด/ปิดได้จากใน Setting เลย (ไม่ต้องกลับหน้าหลัก)
+- **Viewer Overlay** — แสดงยอดคนดูบนจอ (overlay อิสระ — ไม่ต้องเปิด Game Overlay)
+  - โหมดรวม: `👥 1,234` (ยอดรวมทุก platform)
+  - โหมดแยก: `[Twitch icon] 500 [YT icon] 300` (ใช้ platform icon จริง)
+  - ปรับขนาด icon + font + stroke + shadow + color
+  - เลือกจัดวาง: ชิดซ้าย/กลาง/ชิดขวา + ตำแหน่ง 4 มุม
 - **Overlay+** — custom URL overlay สูงสุด 3 อัน (Streamlabs/StreamElements/alert)
   - ปรับความโปร่งใสแยกแต่ละอัน
+- **ปุ่ม Overlay รวม** — กดปุ่ม 🔲 เดียว → เปิด/ปิดทั้ง Game + Viewer Overlay
+  - ▼ Dropdown: ซ่อนกรอบ / Game Overlay Setting / Viewer Overlay Setting
+  - Hotkey ซ่อนกรอบร่วม (Ctrl+Shift+H)
 - **Theme 54 แบบ** — Neon/Glass/Cyberpunk ฯลฯ + Pip-Boy (Fallout) + สไตล์ผู้หญิง (Sakura/Princess/Galaxy Girl ฯลฯ)
 - **Playroom** — มินิเกมวิดีโอ (trigger ด้วย #)
 
@@ -60,10 +68,11 @@
 ### อำนวยความสะดวก
 - **Auto-update** — ตรวจ + ดาวน์โหลด + ติดตั้งอัตโนมัติ (4 layer fallback)
 - **Settings auto-save** — เปลี่ยนค่าแล้วเซฟทันที (debounce 500ms)
-- **Splash screen** — ขั้นต่ำ 2.5 วิ (กันกะพริบ)
+- **Splash screen** — แยกภาพ LITE/FULL + Pixel Block loading bar + พื้นหลังโปร่งใส
 - **prefix อัตโนมัติ** — `!` สำหรับโค้ดลับ, `#` สำหรับ Playroom
 - **Log rotation** — เก็บ 10 ครั้งล่าสุด + crash.log
 - **Plugin System** — command plugin (config-only YAML)
+- **Viewer Commands** — ผู้ชมคุม TTS ผ่านแชท (`[x2]` `[p1]` `[v50]`)
 
 ---
 
@@ -101,18 +110,24 @@ PyInstaller exe อาจถูก AV แจ้งเตือน (false positiv
 
 ## 📝 Changelog ล่าสุด
 
+### v1.8.19
+- **👥 Viewer Overlay** — overlay อิสระแสดงยอดคนดู (แยก server ของตัวเอง)
+  - โหมดรวม / แยก platform (ใช้ platform icon จริง)
+  - ปรับขนาด icon + font + stroke + shadow + color
+  - จัดวาง: ชิดซ้าย/กลาง/ชิดขวา + 4 มุม + จดจำตำแหน่ง
+- **🎨 Splash ใหม่** — แยกภาพ LITE/FULL + Pixel Block loading bar + โปร่งใส
+- **🔲 ปุ่ม Overlay รวม** — กดปุ่มเดียวเปิด/ปิดทั้ง Game + Viewer + dropdown menu
+- **⌨️ Hotkey ร่วม** — Ctrl+Shift+H ซ่อนกรอบทั้งคู่
+- **🔧 Job Object** — subprocess ตายอัตโนมัติเมื่อ parent ปิด/crash
+
+### v1.8.17
+- **🎮 Viewer Commands** — ผู้ชมคุม TTS ผ่านแชท (`[x2]` `[p1]` `[v50]`)
+- **Voice Downloader** — 85 curated models + popup picker + status indicator
+
 ### v1.8.9
-- **Setting เปิดเร็วขึ้น** — lazy build + preload (แท็บ TTS/Overlay ไปเลย ไม่ค้าง)
-- **Theme ใหม่ 30+ แบบ**
-  - ☢️ Pip-Boy (จอเขียว Fallout)
-  - 🌸 สไตล์ผู้หญิง 8 แบบ: Sakura, Princess, Macaron, Galaxy Girl, Cotton Candy, Kawaii, Mermaid, Rose Gold
-  - กรอบลูกเล่น: Hologram, Graffiti, Ribbon, Cloud, Tag, Receipt, TV, Circuit ฯลฯ
-- **Game Overlay toggle ใน Setting** — เปิด/ปิดได้จากใน Setting เลย
-- **Loop Demo ขยาย** — 50 → 107 ข้อความ (หลากหลาย ไม่ซ้ำ)
-- **Opacity แยก Default/Balloon** — set ใคร set มัน (ไม่ sync กัน)
-- **กรอบ edit frame ชัด 100% เสมอ** — จัดวางได้แม่น
-- **Migration reset opacity** — อัพเดทแล้วทุกค่า reset เป็น 100% อัตโนมัติ
-- **ลบเบลอพื้นหลัง** — ใช้ไม่ได้จริงใน overlay
+- **Setting เปิดเร็วขึ้น** — lazy build + preload
+- **Theme ใหม่ 30+ แบบ** — Pip-Boy + สไตล์ผู้หญิง + กรอบลูกเล่น
+- **Game Overlay toggle ใน Setting**
 
 ---
 
@@ -140,9 +155,12 @@ tts-for-livestream/
 ├── chat_kick.py            # KICK client
 ├── overlay_server.py       # OBS overlay HTTP server
 ├── overlay.html            # OBS overlay web page
-├── game_overlay.py         # Game Overlay + Overlay+ manager (MoreOverlay)
-├── game_overlay_qt.py      # Qt transparent window subprocess
+├── game_overlay.py         # Game Overlay + Overlay+ + Viewer Overlay manager
+├── game_overlay_qt.py      # Qt transparent window subprocess (game/overlay+/viewer)
 ├── game_overlay.html       # Game overlay web page
+├── viewer_overlay.html     # Viewer overlay web page (ยอดคนดู)
+├── viewer_overlay_server.py # Viewer overlay HTTP server (port 8790-8800)
+├── splash.py               # Splash screen (Pixel Block loading bar)
 ├── assets/                 # icon + fonts + logo
 ├── plugins/                # Plugin directory (commands/*.yml)
 ├── version.json            # เลขเวอร์ชัน local
@@ -213,27 +231,44 @@ python -m PyInstaller tts_full.spec --noconfirm   # Full
 ### สร้างไฟล์ Release + อัพโหลด
 
 ```bash
-# 1. อัพเดท version.json (local — version + changelog อย่างเดียว)
-#    ไฟล์นี้ bundle ใน exe สำหรับ get_current_version()
+# ⚠️ สำคัญมาก: ทำตามลำดับนี้เท่านั้น — ผิดลำดับ = updater พัง
 
-# 2. สร้าง patch + remote_version.json (มี lite/full block ครบ)
+# 1. แก้ไขโค้ด + syntax check
+python -m py_compile *.py
+
+# 2. Bump version.json ก่อน (version + changelog + lite/full blocks)
+#    ⚠️ version.json ต้องมี lite/full blocks ครบ (ไม่ใช่แค่ version+changelog)
+#    build_patch.py version จะสร้างให้อัตโนมัติจาก patch sizes
+
+# 3. Build exe (PyInstaller) — ต้องปิดโปรแกรมก่อน!
+python -m PyInstaller tts_lite.spec --noconfirm
+python -m PyInstaller tts_full.spec --noconfirm
+
+# 4. สร้าง patch + version files
+#    ⚠️ ต้องรันหลัง build exe เสมอ (build_patch.py sync version.json → dist/_internal/)
 python build_patch.py patch lite
 python build_patch.py patch full
-python build_patch.py version
+python build_patch.py version    # สร้าง remote_version.json + version.json (เหมือนกัน)
 
-# 3. ⚠️ สำคัญ: สร้าง version.json แบบเต็ม (มี lite/full block) สำหรับ GitHub
-#    (เหมือน remote_version.json แต่ชื่อ version.json เพราะ updater อ่านชื่อนี้)
-cp release/remote_version.json release/version.json
+# 5. ตรวจสอบ patch zip มี version ที่ถูกต้อง
+python -c "
+import zipfile, json
+for f in ['release/patch_lite.zip', 'release/patch_full.zip']:
+    z = zipfile.ZipFile(f)
+    data = json.loads(z.read('_internal/version.json'))
+    print(f'{f}: version={data.get(\"version\")}, has blocks={\"lite\" in data}')
+"
+# ต้องเห็น version ใหม่ + has blocks=True ทั้งคู่
 
-# 4. อัพโหลดขึ้น GitHub (ต้องมี version.json + remote_version.json + patch zips)
-gh release edit latest --repo zepiam/broadcast-playroom --title "vX.Y.Z" --notes "..."
-gh release upload latest release/version.json release/remote_version.json \
-  release/patch_lite.zip release/patch_full.zip \
-  --repo zepiam/broadcast-playroom --clobber
+# 6. อัพโหลดขึ้น GitHub
+gh release upload latest release/patch_lite.zip release/patch_full.zip \
+  release/remote_version.json version.json --clobber
+gh release edit latest --title "Broadcast Playroom vX.Y.Z"
 
-# 5. ⚠️ ตรวจสอบว่า version.json บน GitHub มี lite/full block จริง
-gh release download latest --repo zepiam/broadcast-playroom --pattern "version.json" --dir /tmp/check --clobber
-cat /tmp/check/version.json  # ต้องเห็น "lite": {...} และ "full": {...}
+# 7. ⚠️ ตรวจสอบ version.json บน GitHub มี lite/full blocks จริง
+gh release download latest --pattern "version.json" --dir /tmp/check --clobber
+python -c "import json; d=json.load(open('/tmp/check/version.json')); print('lite:', d.get('lite',{}).get('type')); print('full:', d.get('full',{}).get('type'))"
+# ต้องเห็น lite: patch / full: patch (ไม่ใช่ major)
 ```
 
 ### Dependencies สำคัญ
