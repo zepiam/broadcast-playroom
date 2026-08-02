@@ -103,6 +103,13 @@ def pack_patch(build_type: str) -> str:
         out_path.unlink()
 
     print(f"📦 สร้าง patch {build_type} v{version}...")
+    # ★ ซิงค์ version.json ล่าสุดไป _internal/ ก่อน (กันใช้ของเก่าจาก PyInstaller)
+    import shutil
+    internal_dir = dist_dir / "_internal"
+    local_version_json = Path("version.json")
+    dist_version_json = internal_dir / "version.json"
+    if local_version_json.exists() and internal_dir.exists():
+        shutil.copy2(local_version_json, dist_version_json)
     count = 0
     total_size = 0
     with zipfile.ZipFile(out_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
