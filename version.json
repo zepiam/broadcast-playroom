@@ -1,0 +1,14 @@
+{
+  "version": "1.8.19",
+  "changelog": "👥 Viewer Overlay + Splash ใหม่!\n\nViewer Overlay (overlay อิสระ — แยกจาก Game Overlay):\n\n• แสดงยอดคนดูบนจอ (ไม่ต้องเปิด Game Overlay)\n\n• โหมดรวม: 👥 1,234 (ยอดรวมทุก platform)\n\n• โหมดแยก: [Twitch icon] 500 [YT icon] 300 (ใช้ platform icon จริง)\n\n• ปรับขนาด icon + font + stroke + shadow + color\n\n• เลือกจัดวาง: ชิดซ้าย/กลาง/ชิดขวา + ตำแหน่ง 4 มุม\n\n• จดจำตำแหน่ง + ลากย้ายได้\n\nSplash Screen ใหม่:\n\n• แยกภาพ LITE/FULL (ไม่เหมือนกัน)\n\n• พื้นหลังโปร่งใส (เห็นแค่ภาพ ไม่มีกล่อง)\n\n• Pixel Block Loading Bar สไตล์เกม Famicom\n\n• ไม่ always on top\n\nปุ่ม Overlay รวม:\n\n• กดปุ่ม 🔲 เดียว → เปิด/ปิดทั้ง Game + Viewer Overlay\n\n• ▼ Dropdown: ซ่อนกรอบ / Game Overlay Setting / Viewer Overlay Setting\n\n• Hotkey ซ่อนกรอบร่วม (Ctrl+Shift+H)\n\n• Job Object: subprocess ตายอัตโนมัติเมื่อ parent ปิด",
+  "lite": {
+    "type": "patch",
+    "url": "https://github.com/zepiam/broadcast-playroom/releases/download/latest/patch_lite.zip",
+    "size": 9674458
+  },
+  "full": {
+    "type": "patch",
+    "url": "https://github.com/zepiam/broadcast-playroom/releases/download/latest/patch_full.zip",
+    "size": 34419309
+  }
+}
