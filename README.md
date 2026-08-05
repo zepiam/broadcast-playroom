@@ -8,10 +8,13 @@
 
 ## 📦 เวอร์ชัน
 
-| เวอร์ชัน | ขนาด | ความสามารถ |
-|----------|------|-----------|
-| **Lite** | ~900 MB | edge-tts + ทุกฟีเจอร์ยกเว้น RVC |
-| **Full** | ~5.7 GB | Lite + RVC voice conversion (PyTorch+CUDA) |
+| เวอร์ชัน | ขนาด | PyTorch/CUDA | การ์ดจอรองรับ |
+|----------|------|-------------|-------------|
+| **Lite** | ~900 MB | ไม่มี (ไม่ใช้ RVC) | ทุกเครื่อง |
+| **Full** | ~5.7 GB | 2.7.0+cu128 | RTX 20xx ถึง RTX 50xx+ |
+
+> ⚠️ **เลิกรองรับ GTX 10xx (Pascal)** ตั้งแต่ v1.9.8 — เนื่องจากคนสตรีมในยุคนี้ใช้ RTX กันหมดแล้ว ถ้ายังใช้ GTX 10xx ให้ใช้เวอร์ชันเก่า (v1.9.7) หรือเปลี่ยนไปใช้ Lite
+> Auto-update ใช้ patch ร่วมกันได้ทั้ง 2 เวอร์ชั่น (โค้ด Python/HTML เหมือนกัน)
 
 ---
 
@@ -37,10 +40,39 @@
 - ผู้ชมนับ live / auto-reconnect
 
 ### Overlays
+- **🎨 Canvas Overlay Composer** — จัดวาง widget บน canvas ขนาด 720p/1080p (drag + resize + z-index)
+  - Widget หลายประเภท: Chat / Viewer Count / Clock / Image / Playroom / Webcam / Text / Video
+  - ล็อค Ratio ของ widget ได้ (กันบิดเบี้ยวเวลาขยาย)
+  - ตั้งค่า widget แยกแต่ละตัว (font / theme / size / position / opacity)
 - **Chat Overlay (OBS)** — แสดงแชทใน OBS/Streamlabs (Browser Source)
-  - 3 โหมด: Default / Theme / Special (Balloon)
+  - 4 โหมด: Default / Theme / Special (Balloon) / **🎭 Character Talk**
 - **Game Overlay** — แชทลอยเหนือเกม (transparent + click-through, Qt)
   - เปิด/ปิดได้จากใน Setting เลย (ไม่ต้องกลับหน้าหลัก)
+  - รองรับ Character Talk เช่นกัน
+- **🎭 Character Talk** — ตัวละครยืนเรียงด้านล่างจอ + บอลลูนข้อความเหนือหัว
+  - ผู้ชมพิมพ์ `{jobchange:ชื่อjob}` เพื่อเลือกตัวละคร (เก็บถาวร)
+  - `{jobchange:reset}` เพื่อล้าง job กลับเป็น default
+  - ภาพตัวละคร default (`avatar.png`) + เพิ่ม/ลบ job แต่ละตัวได้
+  - ตัวละครสุ่มตำแหน่ง (grid-slot) — ไม่ซ้อนกัน กระจายทั่วจอ
+  - บอลลูนขยายตามเนื้อหา (shrink-to-fit) + scroll ข้อความยาว + กันล้นขอบจอ
+  - ปรับ: ขนาดตัวละคร / ระยะเวลา / จำนวน / ความกว้างกล่อง / สไตล์ชื่อ (stroke/shadow)
+  - ใช้ได้ทั้ง OBS Overlay + Game Overlay (ตั้งค่าร่วมกัน)
+- **🎵 Now Playing Widget** — แสดงเพลงที่กำลังฟัง (Windows System Media)
+  - รองรับ Spotify / YouTube Music (Desktop App) / เบราว์เซอร์ (Chrome/Edge/Firefox)
+  - 20+ Theme + 20 ลวดลาย Style (Flat / Metal / Neon / Glass / CRT / Pixel ฯลฯ)
+  - แสดง album art + progress bar + scroll ชื่อเพลง + client-side timer (sync แม่นยำ)
+- **🎉 Emote Party Widget** — ดัก emote จากทุกแพลตฟอร์ม + animation สนุก ๆ
+  - รองรับ Twitch (sub + BTTV + FFZ + 7TV) / YouTube / TikTok / Unicode emoji
+  - 4 animation: Float / DVD Bounce / Pop & Drop / Shake-Spin
+  - ปรับ: รูปแบบ animation / ระยะเวลา / จำนวนสูงสุด / ขนาด emote
+- **👥 Viewer Count Widget** — แสดงยอดคนดูแยกตามแพลตฟอร์ม
+  - โหมด: รวม / รายแพลตฟอร์ม / ทั้งสอง
+  - เรียงแนวนอนหรือแนวตั้งได้ + 18 Theme
+- **🎮 Playroom Widget** — เล่น clip เมื่อผู้ชมพิมพ์ trigger
+  - คัดแยก trigger ได้ต่อ widget (กล่องนี้รับ #fortune, อีกกล่องรับ #random)
+  - เครื่องมือ **Color Key** ตัดสีฉากหลัง (chroma key) + Eyedropper + Similarity + Smoothness
+- **🎬 Video Widget** — วิดีโอ loop + รองรับ Color Key ตัดสีฉากหลัง
+- **🔌 OBS WebSocket** — เชื่อมต่อ OBS อัตโนมัติ → refresh browser source ทันทีหากเปิด OBS ก่อนโปรแกรม
 - **Viewer Overlay** — แสดงยอดคนดูบนจอ (overlay อิสระ — ไม่ต้องเปิด Game Overlay)
   - โหมดรวม: `👥 1,234` (ยอดรวมทุก platform)
   - โหมดแยก: `[Twitch icon] 500 [YT icon] 300` (ใช้ platform icon จริง)
@@ -110,6 +142,33 @@ PyInstaller exe อาจถูก AV แจ้งเตือน (false positiv
 
 ## 📝 Changelog ล่าสุด
 
+### v1.12.0
+- **🎵 Now Playing Widget** — แสดงเพลงที่กำลังฟัง (Spotify / YouTube Music / เบราว์เซอร์)
+  - 20+ Theme + 20 ลวดลาย Style + album art + progress bar + client-side timer
+- **🎉 Emote Party Widget** — ดัก emote จากทุกแพลตฟอร์ม (Twitch/YouTube/TikTok/emoji)
+  - 4 animation: Float / DVD Bounce / Pop & Drop / Shake-Spin
+- **🎨 Color Key (Chroma Key)** — ตัดสีฉากหลังบน Playroom + Video widget
+  - Eyedropper คลิกเก็บสีจากวิดีโอ + Similarity + Smoothness
+- **👥 Viewer Count Widget** — แยกยอดคนดูตามแพลตฟอร์ม + เรียงแนวตั้งได้
+- **🎮 Playroom Widget** — คัดแยก trigger ได้ต่อ widget
+- **🔌 OBS WebSocket** — refresh overlay อัตโนมัติเมื่อเปิด OBS ก่อนโปรแกรม
+- **🔲 Ratio Lock** — ล็อคอัตราส่วน widget ไม่ให้ขยับผิดไซส์
+- **🔧 แก้บั๊ก MyLive** — เชื่อมต่อได้แม้ในห้อง Live ยังไม่มีแชท
+- **🔧 แก้ reconnect** — ไม่ค้าง UI + ไม่ loop + ไม่ error ตอนกดหยุดเอง
+- **⌨️ Ctrl+C/V/A/X** — ใช้ได้ทุกภาษา (ไทย/อังกฤษ)
+- **🔧 ปรับ Chat Widget / System Message / TTS queue**
+- **🗑️ ลบ RVC Model ที่ลิ้งค์ใช้ไม่ได้**
+
+### v1.8.20
+- **🎭 Character Talk** — ตัวละครยืนเรียงด้านล่างจอ + บอลลูนข้อความเหนือหัว (overlay mode ใหม่)
+  - ผู้ชมพิมพ์ `{jobchange:ชื่อjob}` เพื่อเลือกตัวละคร (เก็บถาวรต่อผู้ชม)
+  - ภาพ default (`avatar.png` ที่มากับแอป) + browse ภาพเองได้ + เพิ่ม/ลบ job
+  - ตัวละครสุ่มตำแหน่งแบบ grid-slot — ไม่ซ้อนกัน กระจายทั่วจอ
+  - บอลลูน shrink-to-fit + scroll ข้อความยาว + กันล้นขอบจอ (หางชี้ตัวละคร)
+  - ปรับความกว้างกล่อง (400-800px) + สไตล์ชื่อ (size/stroke/shadow)
+  - ใช้ได้ทั้ง OBS Overlay + Game Overlay
+- **🔧 แก้ Qt WebEngine cache** — incognito profile + cache-bust (กัน HTML เวอร์ชันเก่า)
+
 ### v1.8.19
 - **👥 Viewer Overlay** — overlay อิสระแสดงยอดคนดู (แยก server ของตัวเอง)
   - โหมดรวม / แยก platform (ใช้ platform icon จริง)
@@ -144,7 +203,7 @@ tts-for-livestream/
 ├── updater.py              # Auto-update (4 layer fallback)
 ├── build_patch.py          # สร้าง patch/full zip สำหรับ release
 ├── tts_lite.spec           # PyInstaller spec (Lite)
-├── tts_full.spec           # PyInstaller spec (Full)
+├── tts_full.spec           # PyInstaller spec (Full — torch 2.7.0+cu128, RTX 20xx → 50xx+)
 ├── plugin_loader.py        # Plugin loader (command config-only)
 ├── plugin_api.py           # Abstract classes (TTSEngine, PlatformClient, CommandHandler)
 ├── rvc_engine.py           # RVC voice conversion + HuBERT cache
@@ -221,12 +280,53 @@ tts-for-livestream/
 
 ```bash
 # สำคัญ: ปิดโปรแกรมก่อน build เสมอ (กัน file lock)
-# สำคัญ: numpy < 2 (เพื่อ torch 2.2.2 compatibility)
-pip install "numpy<2"
+# สำคัญ: numpy < 2 (เพื่อ torch compatibility)
 
+# ── Lite (ไม่ต้องใช้ torch) ──
+pip install "numpy<2"
 python -m PyInstaller tts_lite.spec --noconfirm   # Lite
+
+# ── Full (RTX 20xx → 50xx+ — ใช้ torch 2.7.0+cu128) ──
+pip install torch==2.7.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu128
 python -m PyInstaller tts_full.spec --noconfirm   # Full
+# (dev) คืน torch 2.2.2 เพื่อเทสโค้ดเก่าที่ยังอ้างอยู่ (ถ้าจำเป็น):
+pip install torch==2.2.2 torchaudio==2.2.2 --index-url https://download.pytorch.org/whl/cu121
 ```
+
+#### 🚨 จดบทเรียนราคาแพง — ต้อง rebuild exe ก่อน build patch เสมอ!
+
+**บั๊คที่เกิดซ้ำ 2 ครั้งแล้ว (v1.8.x + v1.9.x):**
+1. แก้โค้ดใน source (เช่น `composer.html`)
+2. รัน `build_patch.py` โดย **ไม่ rebuild exe ก่อน**
+3. `build_patch.py` อ่านจาก `dist/_internal/` ที่ยังเป็นของเก่า → patch ส่งไฟล์เก่าไป
+4. User อัปเดตแล้วไม่เห็นฟีเจอร์ใหม่
+
+**อาการอีกแบบ:** version.json ใน patch ไม่ตรง → updater detect อัปเดตซ้ำๆ ไม่รู้จบ (loop)
+
+**วิธีป้องกัน (ทำทุกครั้งก่อน release):**
+```bash
+# 1. REBUILD EXE ทั้ง 2 ก่อนเสมอ (แม้แก้แค่ HTML)
+python -m PyInstaller tts_lite.spec --noconfirm
+# Full (ต้องลง torch 2.7.0+cu128 ก่อน):
+pip install torch==2.7.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu128
+python -m PyInstaller tts_full.spec --noconfirm
+pip install torch==2.2.2 torchaudio==2.2.2 --index-url https://download.pytorch.org/whl/cu121
+
+# 2. sync version.json ลง dist/_internal/ (build_patch.py version ทำให้)
+python build_patch.py patch lite
+python build_patch.py patch full
+python build_patch.py version
+
+# 3. ตรวจสอบว่า patch มีไฟล์ใหม่จริง
+python -c "
+import zipfile
+z = zipfile.ZipFile('release/patch_lite.zip')
+data = z.read('_internal/composer.html').decode()
+print('has new feature:', 'NEW_FEATURE_KEYWORD' in data)
+"
+```
+
+> ⚠️ **ถ้าไม่ rebuild exe → patch จะส่งไฟล์เก่า → user ไม่ได้ฟีเจอร์ใหม่ + อาจทำให้ version ไม่ตรง → loop update**
 
 ### สร้างไฟล์ Release + อัพโหลด
 
@@ -272,7 +372,7 @@ python -c "import json; d=json.load(open('/tmp/check/version.json')); print('lit
 ```
 
 ### Dependencies สำคัญ
-- `numpy < 2` (torch 2.2.2 compatibility)
+- `numpy < 2` (torch compatibility — ใช้ได้กับทั้ง torch 2.2.2 และ 2.7.0)
 - `collect_submodules('requests')` + `('urllib3')` ใน spec (ต้องมี! — updater ใช้)
 - `certifi` (SSL certificates สำหรับ HTTPS)
 
@@ -283,6 +383,66 @@ npm install
 node server.js  # http://localhost:3000
 ```
 หลังบ้าน: `/admin/login` (เปลี่ยน password ใน server.js)
+
+---
+
+## 📋 Character Talk — บันทึกสถานการณ์ปัจจุบัน (สำหรับ AI รุ่นต่อไป)
+
+> ส่วนนี้เขียนขึ้นเพื่อส่งต่อบริบทให้ AI รุ่นต่อไปเข้าใจสถานการณ์ปัจจุบันของ feature Character Talk
+> วันที่อัปเดต: 2026-08-03
+
+### Feature ที่ทำเสร็จแล้ว
+- **🎭 Character Talk** — overlay mode ใหม่ (ตัวที่ 4 ใน OBS Overlay + Game Overlay)
+  - ตัวละครยืนเรียงด้านล่างจอ + บอลลูนข้อความเหนือหัว
+  - ผู้ชมพิมพ์ `{jobchange:ชื่อjob}` เพื่อเลือกตัวละคร (เก็บถาวรใน `settings.user_jobs`)
+  - `{jobchange:reset}` ล้าง job กลับเป็น default
+  - ภาพ default = `avatar.png` ที่ bundle มากับแอป (browse เปลี่ยนเองได้)
+  - ตัวละครสุ่มตำแหน่ง (grid-slot algorithm) — ไม่ซ้อนกัน
+  - บอลลูน shrink-to-fit + scroll ข้อความยาว (เกิน 3 บรรทัด) + กันล้นขอบจอ
+  - ปรับความกว้างกล่อง (400-800px) + สไตล์ชื่อ (size/stroke/shadow)
+
+### ปัญหาที่เจอ + วิธีแก้
+
+#### 1. ตัวละครซ้อนกัน (หลายรอบ)
+- **สาเหตุที่ 1:** `randomizeCharPosition` ใช้ `el.offsetWidth` วัดความกว้าง แต่ offsetWidth รวม bubble (500px+) → charW ใหญ่เกิน → มีแค่ 1 ช่อง → ทุกตัวอยู่ที่เดียวกัน
+  - **แก้:** ใช้ค่าจาก config ล้วน — `charW = Math.max(60, Math.round(charH * 0.7))`
+- **สาเหตุที่ 2:** สูตรคำนวณ `occupied` ใน grid-slot ผิด — `Math.abs(ul - slotCenter + charW / 2)` มี `+ charW/2` ที่ทำให้คำนวณระยะผิด → หาว่า slot ว่างทั้งที่ไม่ว่าง
+  - **แก้:** `Math.abs(ul + charW / 2 - slotCenter) < slotW / 2`
+- **สาเหตุที่ 3 (กลับมาซ้ำ):** Browser cache HTML เก่า → ใช้ logic เก่าที่มี bug
+  - **แก้:** เพิ่ม `?v={timestamp}` ที่ URL ที่โปรแกรมสร้างให้ (open + copy) → URL ต่างกันทุกครั้ง → browser โหลดใหม่
+
+#### 2. Game Overlay เปิดไม่ได้ (crash)
+- **สาเหตุ:** สร้าง `QWebEngineProfile` **ก่อน QApplication** → Qt crash (ต้องการ QApplication ก่อนเสมอ)
+  - **แก้:** ย้าย incognito profile ไปหลัง QApplication
+- **สาเหตุที่ 2:** ส่ง profile เป็น kwarg → PySide6 6.11 ต้องการ positional arg
+  - **แก้:** ส่งเป็น positional arg ตัวที่ 2
+
+#### 3. OBS Overlay Character Talk setting แสดง Theme content ตอนเปิดครั้งแรก
+- **สาเหตุ:** `_render_ov_character_jobs` method ถูกวางผิดคลาส — อยู่ใน `GameOverlaySettingsDialog` แทน `SettingsDialog` → AttributeError → build หยุด → holder ไม่ถูก grid
+  - **แก้:** ย้าย method ไป SettingsDialog
+
+#### 4. ภาพตัวละครไม่ replace เวลาอัพโหลดใหม่
+- **สาเหตุ:** Browser cache ภาพ (`Cache-Control: max-age=60`) + URL `/character/{job}` เดิม
+  - **แก้:** `Cache-Control: no-cache` + เพิ่ม `?t={timestamp}` ที่ img.src
+
+#### 5. ข้อความพอดี 3 บรรทัดก็ scroll
+- **สาเหตุ:** Logic เช็ค `fullH > visibleH + 2` (เผื่อแค่ 2px) → sub-pixel rounding trigger scroll
+  - **แก้:** เพิ่ม threshold เป็น `fullH > visibleH + lineHeight` (เผื่อ 1 บรรทัด)
+
+### สถานะปัจจุบัน (ที่ AI ใหม่ต้องรู้)
+- **โค้ดเสร็จหมดแล้ว** — Character Talk ทำงานครบทุกส่วน
+- **ยังไม่ได้ build/release** — Meng ทดสอบจาก `run.bat` (source) ตลอด
+- **ปัญหาสุดท้ายที่อาจเจอ:** Browser cache HTML เก่า (OBS Browser Source โดยเฉพาะ) — แก้ด้วย `?v={timestamp}` ใน URL แล้ว แต่ถ้ายังเจอ ให้ลบ Browser Source เดิมใน OBS แล้วเพิ่มใหม่ด้วย URL ใหม่
+- **เมื่อพร้อม build:** bump version → 1.8.20, sync version.json ลง `_internal/`, build LITE + FULL, push GitHub
+
+### ไฟล์ที่แก้ (สำหรับ AI ใหม่ reference)
+- `settings.py` — fields: `user_jobs`, `character_jobs`, `character_default_image`, `character_*` settings + `resolve_character_default_image()` helper
+- `app_gui.py` — parse `{jobchange:xxx}` in `on_message`, Character Talk holder UI (OBS + Game), `_render_character_jobs` + `_render_ov_character_jobs`
+- `overlay_server.py` + `game_overlay_server.py` — `/character/{job}` endpoint + character config in `_build_config`
+- `overlay.html` + `game_overlay.html` — character mode CSS + JS (`addCharacterMessage`, `randomizeCharPosition`, `positionCharBubble`, `updateCharBubble`)
+- `game_overlay_qt.py` — incognito profile + cache-bust URL + javaScriptConsoleMessage
+- `tts_lite.spec` + `tts_full.spec` — bundle `avatar.png`
+- `build_patch.py` — เพิ่ม `avatar.png` ใน PATCH_PATTERNS
 
 ---
 

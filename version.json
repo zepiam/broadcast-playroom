@@ -1,14 +1,14 @@
 {
-  "version": "1.8.19",
-  "changelog": "👥 Viewer Overlay + Splash ใหม่!\n\nViewer Overlay (overlay อิสระ — แยกจาก Game Overlay):\n\n• แสดงยอดคนดูบนจอ (ไม่ต้องเปิด Game Overlay)\n\n• โหมดรวม: 👥 1,234 (ยอดรวมทุก platform)\n\n• โหมดแยก: [Twitch icon] 500 [YT icon] 300 (ใช้ platform icon จริง)\n\n• ปรับขนาด icon + font + stroke + shadow + color\n\n• เลือกจัดวาง: ชิดซ้าย/กลาง/ชิดขวา + ตำแหน่ง 4 มุม\n\n• จดจำตำแหน่ง + ลากย้ายได้\n\nSplash Screen ใหม่:\n\n• แยกภาพ LITE/FULL (ไม่เหมือนกัน)\n\n• พื้นหลังโปร่งใส (เห็นแค่ภาพ ไม่มีกล่อง)\n\n• Pixel Block Loading Bar สไตล์เกม Famicom\n\n• ไม่ always on top\n\nปุ่ม Overlay รวม:\n\n• กดปุ่ม 🔲 เดียว → เปิด/ปิดทั้ง Game + Viewer Overlay\n\n• ▼ Dropdown: ซ่อนกรอบ / Game Overlay Setting / Viewer Overlay Setting\n\n• Hotkey ซ่อนกรอบร่วม (Ctrl+Shift+H)\n\n• Job Object: subprocess ตายอัตโนมัติเมื่อ parent ปิด",
+  "version": "1.12.0",
+  "changelog": "🎉 Broadcast Playroom v1.12.0 — อัปเดตใหญ่!\n\n• แก้บัค เชื่อมต่อแพลตฟอร์ม MyLive ไม่ได้ หากในห้อง Live ยังไม่เคยพิมพ์แชท\n• เพิ่ม Now Playing Widget - สำหรับแสดงชื่อเพลงที่กำลังฟังอยู่\n  - รองรับการเปิดเพลงฟังบนบราวเซอร์ Edge/Chrome/Firefox\n  - และรองรับการเปิดฟังผ่าน Spotify และ Youtube Music (Desktop App)\n  - มี Theme และ Style ให้เลือกใช้มากมาย\n• เพิ่มระบบ OBS Websocket - เพิ่มการเชื่อมต่อระบบกับ OBS เพื่อให้ Overlay ถูก Refresh ขึ้นมาทันที หากเปิด OBS ก่อน Broadcast Playroom\n• เพิ่มการล๊อค Ratio ของ Widget ไม่ให้ขยับผิดไซส์\n• แก้ไขการแสดง System Message บน Live Chat\n• ปรับการจัดคิวอ่านข้อความด้วย Text to Speech\n• ปรับการตั้งค่าของ Chat Widget ให้เก็บการตั้งค่าแยกออกไป\n• Widget Playroom สามารถคัดแยกคำสั่งได้ว่ารองรับ Playroom อะไรบ้างต่อ Widget\n• เพิ่มเครื่องมือ Color Key ตัดสีฉากหลัง บน Widget Playroom และ Video\n• เพิ่ม Emote Party สำหรับรับ Emote จากแชทขึ้นมาแสดงบนจอ\n• เพิ่ม การแสดง Viewer Count แบบแยกยอดคนดูตามแพลตฟอร์ม มากกว่า 1 ช่องทาง ให้เรียงเป็นแนวตั้งได้\n• ลบ RVC Model ที่ลิ้งค์ใช้ไม่ได้",
   "lite": {
     "type": "patch",
     "url": "https://github.com/zepiam/broadcast-playroom/releases/download/latest/patch_lite.zip",
-    "size": 9674458
+    "size": 10285143
   },
   "full": {
     "type": "patch",
     "url": "https://github.com/zepiam/broadcast-playroom/releases/download/latest/patch_full.zip",
-    "size": 34419309
+    "size": 35810076
   }
 }
