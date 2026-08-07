@@ -246,6 +246,84 @@ tts-for-livestream/
 
 > 💡 เก็บไว้เป็นแผน ไม่ได้ทำทันที — เมื่อถึงเวลาที่มี requirement ใหม่ค่อยทำ
 
+### 🔄 PySide6 Migration (v2.0.0 — เปลี่ยน UI Framework)
+
+> 🎯 **เป้าหมาย**: แก้ปัญหากระพริบ/กระตุก ของ customtkinter โดยย้ายไปใช้ PySide6 (Qt for Python)
+
+#### ทำไมต้องเปลี่ยน?
+
+| ปัญหา | customtkinter (ปัจจุบัน) | PySide6/Qt |
+|---|---|---|
+| Restore จาก minimize | กระพริบดำทั้งจอ | ลื่น ไม่กระพริบ |
+| สลับ tab / เปิด Settings | มี flash ขาว/ดำ | สลับลื่น |
+| Resize window | กระตุก ภาพฉีก | ลื่น 60fps |
+| Scroll chat เยอะๆ | กระตุกบ้าง | ลื่น |
+| Font rendering | มักเบลอ | คมชัด |
+| Animation | จำกัด (Tk canvas) | transition/fade/slide ครบ |
+
+#### สิ่งที่เปลี่ยนไป
+
+**ใช้ได้เลย (logic เดิม ไม่ต้องแก้):**
+- ✅ edge-tts (Python library)
+- ✅ RVC voice conversion (Python + PyTorch)
+- ✅ Chat connectors ทั้ง 5 แพลตฟอร์ม (Twitch/YouTube/MyLive/TikTok/KICK)
+- ✅ Translation (Google/DeepL/DeepSeek)
+- ✅ NG-Replace / User Manager / Settings logic
+- ✅ OBS WebSocket auto-refresh
+- ✅ Composer overlay server (aiohttp — แยกจาก UI)
+- ✅ Playwright (MyLive)
+- ✅ Plugin system
+- ✅ Auto-update system
+
+**ต้องเขียนใหม่ (UI เท่านั้น):**
+- 🔄 หน้าหลัก (chat feed, toolbar, status bar)
+- 🔄 Settings window
+- 🔄 Popout chat window
+- 🔄 Voice Downloader UI
+- 🔄 Splash screen
+- 🔄 Advanced Settings (hidden tab)
+
+**ได้ประโยชน์เพิ่ม:**
+- ⬆️ Game Overlay รวมเข้าโปรแกรมหลักได้ (ตอนนี้เป็น subprocess แยก เพราะใช้ PySide6 WebEngine)
+- ⬆️ Native Windows rendering (คมชัด สวย ลื่น)
+- ⬆️ รองรับ high-DPI ได้ดีกว่า
+- ⬆️ Animation/transition ลื่น
+
+#### ผลกระทบต่อผู้ใช้
+
+| เหตุการณ์ | ผู้ใช้ต้องทำอะไร | ขนาด |
+|---|---|---|
+| อัปเดตเป็น v2.0.0 ครั้งแรก | **โหลดใหม่ทั้งโปรแกรม** (เพราะเปลี่ยน dependency) | ~1GB (Lite) / ~6GB (Full) |
+| หลัง v2.0.0 แล้ว อัปเดต logic | patch อัตโนมัติเหมือนเดิม | 10-35MB |
+
+> ⚠️ **v2.0.0 = breaking change** — ผู้ใช้ต้องโหลดใหม่ทั้งโปรแกรมครั้งเดียว หลังจากนั้นใช้ patch update ได้ปกติ
+
+#### ขั้นตอนการทำ (สัปดาห์ละขั้นตอน)
+
+1. **สัปดาห์ที่ 1-2**: เขียน UI หลัก (chat feed + toolbar + status bar) บน PySide6
+2. **สัปดาห์ที่ 2-3**: Settings window + Popout + Voice Downloader + Splash
+3. **สัปดาห์ที่ 3**: รวม Game Overlay เข้าโปรแกรมหลัก + ทดสอบ
+4. **สัปดาห์ที่ 4**: Build + debug + release v2.0.0
+
+#### ไฟล์ที่จะเพิ่ม/เปลี่ยน
+
+```
+tts-for-livestream/
+├── main.py                 # เปลี่ยน: ใช้ QApplication แทน CTk
+├── app_gui.py              # เขียนใหม่: QMainWindow + QWidget (PySide6)
+├── ui/                     # ✨ ใหม่: UI components แยกไฟล์
+│   ├── main_window.py      # หน้าหลัก
+│   ├── chat_panel.py       # chat feed
+│   ├── settings_dialog.py  # Settings
+│   ├── popout_window.py    # Popout chat
+│   ├── voice_downloader.py # Voice Downloader
+│   └── splash.py           # Splash screen
+├── game_overlay_qt.py      # ลบ: รวมเข้า app_gui.py แล้ว
+├── tts_lite.spec           # เปลี่ยน: PySide6 แทน customtkinter
+├── tts_full.spec           # เปลี่ยน: PySide6 แทน customtkinter
+└── (ไฟล์อื่นๆ เดิมหมด — logic ไม่เปลี่ยน)
+```
+
 ### 🔌 Plugin System (เชื่อม ABC ที่ยังเป็น stub)
 
 | ลำดับ | ฟีเจอร์ | สถานะปัจจุบัน | สิ่งที่ต้องทำ |
